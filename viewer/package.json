@@ -5,7 +5,9 @@
   "main": "dist/biongff-vizarr.cjs.js",
   "module": "dist/biongff-vizarr.es.js",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -17,7 +19,8 @@
     "dev": "vite",
     "build": "npm run check && vite build",
     "preview": "vite preview",
-    "check": "tsc"
+    "check": "tsc",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@deck.gl/core": "~9.0.0",
@@ -30,6 +33,7 @@
     "jotai": "^1.0.0",
     "math.gl": "^4.1.0",
     "p-map": "^7.0.3",
+    "patch-package": "^8.0.1",
     "quick-lru": "^7.0.0",
     "react-is": "18.3.1",
     "zarrita": "0.5.0"
