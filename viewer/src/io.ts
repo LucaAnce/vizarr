@@ -77,7 +77,6 @@ export async function createSourceData(config: ImageLayerConfig): Promise<Source
   const node = await utils.open(config.source);
   let data: zarr.Array<zarr.DataType, zarr.Readable>[];
   let axes: Ome.Axis[] | undefined;
-
   if (node instanceof zarr.Group) {
     let attrs = utils.resolveAttrs(node.attrs);
 

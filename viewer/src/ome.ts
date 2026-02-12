@@ -393,7 +393,6 @@ function parseOmeroMeta({ rdefs, channels, name }: Ome.Omero, axes: Ome.Axis[]):
     return 0;
   });
   const channel_axis = axes.findIndex((axis) => axis.type === "channel");
-
   return {
     name,
     names,

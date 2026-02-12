@@ -2,7 +2,7 @@ import { Matrix4 } from "math.gl";
 import * as zarr from "zarrita";
 
 import type * as viv from "@vivjs/types";
-import { ZipFileStore } from "@zarrita/storage";
+import ZipFileStore from "./zarrita_storage/storage/src/zip";
 import type { ZarrPixelSource } from "./ZarrPixelSource";
 import type { GridLayerProps } from "./layers/grid-layer";
 import type { LabelLayerProps } from "./layers/label-layer";
@@ -399,6 +399,7 @@ export function resolveAttrs(attrs: zarr.Attributes): zarr.Attributes {
     // @ts-expect-error - handles v0.5
     return attrs.ome;
   }
+
   return attrs;
 }
 

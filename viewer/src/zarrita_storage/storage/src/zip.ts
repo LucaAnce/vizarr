@@ -1,3 +1,4 @@
+
 import type { Reader, ZipInfo } from "unzipit";
 import { unzip } from "unzipit";
 import type { AbsolutePath, AsyncReadable } from "./types.js";
@@ -17,10 +18,10 @@ export class BlobReader implements Reader {
 
 /** Options for {@linkcode ZipFileStore}. */
 interface ZipFileStoreOptions {
-  /**
-   * Optional function to transform entries after unzipping.
-   *
-   * Useful for modifying or restructuring the paths of extracted zip entries.
+  /**                                                                                                                   
+   * Optional function to transform entries after unzipping.                                                            
+   *                                                                                                                    
+   * Useful for modifying or restructuring the paths of extracted zip entries.                                          
    */
   transformEntries?: (entries: ZipInfo["entries"]) => ZipInfo["entries"];
 }
@@ -86,18 +87,20 @@ class ZipFileStore<R extends Reader = Reader> implements AsyncReadable {
     console.log(entry.size)
 
     if ("suffixLength" in range) {
+      const entries = (await this.info)
       const size = (await this.info).entries[strip_prefix(key)].size;
       const length = range.suffixLength;
       const arrayBuffer = await entry.arrayBuffer();
-      console.log(length)
       const data = new Uint8Array(arrayBuffer.slice(size - length, size));
+
       return data
 
     }
 
     const arrayBuffer = await entry.arrayBuffer();
     const data = new Uint8Array(arrayBuffer.slice(range.offset, range.length));
-
+    debugger;
+    console.log('Fetching entry range ', range.offset, ' - ', range.length + range.offset, ' of length ', range.length, ' from ', key)
     return data
 
   }
@@ -105,7 +108,9 @@ class ZipFileStore<R extends Reader = Reader> implements AsyncReadable {
   async get(key: AbsolutePath): Promise<Uint8Array | undefined> {
     let entry = (await this.info).entries[strip_prefix(key)];
     if (!entry) return;
-    return new Uint8Array(await entry.arrayBuffer());
+    const result = new Uint8Array(await entry.arrayBuffer());
+    return result;
+
   }
 
   async has(key: AbsolutePath): Promise<boolean> {
@@ -128,3 +133,24 @@ class ZipFileStore<R extends Reader = Reader> implements AsyncReadable {
 }
 
 export default ZipFileStore;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
