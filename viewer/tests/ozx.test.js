@@ -1,21 +1,25 @@
 import { test, afterEach } from "vitest";
 import { createSourceData } from "../src/io";
 import { writeImageToMetadata } from './metadata'
+import fs from 'fs'
+import path from 'path'
+import yaml from 'yaml'
 
+const imagesPath = path.join(__dirname, '..', '..', 'fixtures')
 
-test("Can read .ozx file without error", async () => {
-  const baseUrl = `http://${process.env.VITE_TEST_STATIC_SERVER_HOST}:${process.env.VITE_TEST_STATIC_SERVER_PORT}`;
-  const imageDir = 'backpack'
-  const imagePath = `${imageDir}/image.ozx`
-  let url = `${baseUrl}/${imagePath}`;
+const files = fs.readdirSync(imagesPath).filter((fileName) => fileName.endsWith('.yaml'))
 
-  const config = {
-    source: url,
-  };
-
-  await createSourceData(config);
-  await writeImageToMetadata(url, imageDir)
-
-});
+files.map(async (file) => {
+  const filePath = path.join(imagesPath, file)
+  const description = yaml.parse(fs.readFileSync(filePath, 'utf8'))
+  test(`Can read ${description.name} without error`, async () => {
+    await createSourceData(
+      {
+        source: description.source
+      }
+    )
+    writeImageToMetadata(description.source, description.name)
+  })
+})
 
 
