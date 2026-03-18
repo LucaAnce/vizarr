@@ -30,7 +30,9 @@ function optionalDeps(packageMap) {
     const re = new RegExp(`^\\s*-\\s*['"]?${folder}['"]?\\s*$`, "m");
     if (!re.test(wsContent)) {
       disabled.add(pkg);
-      console.log(`[optional-deps] "${pkg}" (folder "${folder}") is not active in pnpm-workspace.yaml — will substitute empty module`);
+      console.log(
+        `[optional-deps] "${pkg}" (folder "${folder}") is not active in pnpm-workspace.yaml — will substitute empty module`,
+      );
     }
   }
 
@@ -56,10 +58,7 @@ export default defineConfig(({ mode }) => {
   const roiActive = /^\s*-\s*['"]?roi-selector['"]?\s*$/m.test(wsContent);
 
   return {
-    plugins: [
-      optionalDeps({ "@biongff/roi-selector": "roi-selector" }),
-      react(),
-    ],
+    plugins: [optionalDeps({ "@biongff/roi-selector": "roi-selector" }), react()],
     resolve: {
       alias: {
         ...(mode === "development"
